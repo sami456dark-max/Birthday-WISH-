@@ -1,0 +1,53 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday Bestie!</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #1f1c2c, #928dab);
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 2rem;
+      perspective: 1000px;
+    }
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      transform: rotateY(-10deg);
+    }
+    .step {
+      background: rgba(255, 255, 255, 0.1);
+      margin: 1rem auto;
+      padding: 1rem 2rem;
+      border-radius: 10px;
+      width: 80%;
+      box-shadow: 0 0 20px #00000050;
+      transform: rotateX(5deg);
+    }
+    .step:hover {
+      transform: scale(1.05) rotateX(0deg);
+      background: rgba(255, 255, 255, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <h1>🎉 10 Steps to Wish My Best Friend 🎂</h1>
+
+  <div class="step">1 Open heart, open browser — time to celebrate!</div><div class="step">2 Recall every crazy memory, from late-night talks to inside jokes.</div>
+  <div class="step">3 Write a heartfelt poem that rhymes (or doesn't).</div>
+  <div class="step">4 Add some code — because we're geeks and proud! 👩‍💻</div>
+  <div class="step">5 Insert a voice note where I scream “HAPPY BIRTHDAY!” 🎙️</div>
+  <div class="step">6 Create a meme only *we* would understand 😂</div>
+  <div class="step">7 Send a virtual cake. No calories, all love. 🍰</div>
+  
+  <div class="step">8 Remind you you’re the main character in my friend story 🌟</div>
+  <div class="step">10 Say it loud : happy birthday ! From wherever I am to wherever you are 💛</div>
+
+</body>
+</html>
+```
+
