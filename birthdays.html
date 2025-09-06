@@ -1,0 +1,261 @@
+
+
+
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Happy Birthday Surprise</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+  body {
+    margin: 0; padding: 0; overflow: hidden;
+    background: #0b0c1e;
+    font-family: 'Pacifico', cursive;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  h1 {
+    font-size: 4em;
+    text-shadow:
+      0 0 10px #ff3c78,
+      0 0 20px #ff3c78,
+      0 0 40px #ff3c78,
+      0 0 80px #ff3c78;
+    margin-bottom: 5px;
+  }
+  h2 {
+    font-size: 2em;
+    margin-top: 0;
+    margin-bottom: 30px;
+    color: #ffdc6f;
+    text-shadow: 0 0 5px #ffdc6f;
+  }
+  #cake {
+    position: relative;
+    width: 250px;
+    height: 200px;
+    margin-bottom: 50px;
+  }
+  /* Cake base */
+  .cake-layer {
+[9/6, 10:13 AM] My Friend: background: linear-gradient(135deg, #f9c7b3, #d67154);
+    border-radius: 20px 20px 10px 10px;
+    box-shadow: 0 5px 10px #b65a41 inset;
+    width: 220px;
+    height: 70px;
+    margin: 0 auto;
+  }
+  .cake-layer.top {
+    width: 180px;
+    height: 50px;
+    margin-top: -30px;
+    background: linear-gradient(135deg, #fcdcbf, #c98157);
+  }
+  /* Candle */
+  .candle {
+    position: absolute;
+    width: 12px;
+    height: 40px;
+    background: #fff;
+    border-radius: 3px;
+    top: -40px;
+    box-shadow: 0 0 8px #fff inset;
+  }
+  /* Candle flames (off by default) */
+  .flame {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 20px;
+    background: radial-gradient(circle at 50% 20%, #ffdd00, #ff6600);
+    border-radius: 50% 50% 50% 50% / 100% 100% 0 0;
+    opacity: 0;
+    filter: drop-shadow(0 0 5px #ffdd00);
+    animation: flicker 1s infinite alternate;
+  }
+  @keyframes flicker {
+    0% { opacity: 0.8; transform: translateX(-50%) scale(1); }
+    100% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+  }
+  /* Candle positions */
+  .candle:nth-child(1) { left: 40px; }
+  .candle:nth-child(2) { left: 80px; }
+  .candle:nth-child(3) { left: 120px; }
+  .candle:nth-child(4) { left: 160px; }
+[9/6, 10:13 AM] My Friend: .candle:nth-child(5) { left: 200px; }
+
+  /* Fireworks canvas */
+  #fireworksCanvas {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 10;
+  }
+  /* Music button */
+  #musicControl {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #ff3c78;
+    border: none;
+    color: white;
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 0 10px #ff3c78;
+    z-index: 20;
+  }
+</style>
+</head>
+<body>
+
+<h1>Happy Birthday!</h1>
+<h2>Barakallahu feek 🎉</h2>
+
+<div id="cake">
+  <div class="cake-layer"></div>
+  <div class="cake-layer top"></div>
+  <div class="candle"><div class="flame"></div></div>
+  <div class="candle"><div class="flame"></div></div>
+  <div class="candle"><div class="flame"></div></div>
+  <div class="candle"><div class="flame"></div></div>
+  <div class="candle"><div class="flame"></div></div>
+</div>
+
+<button id="musicControl">🔊 Play Music</button>
+
+<canvas id="fireworksCanvas"></canvas>
+
+<audio id="bgMusic" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2021/10/30/audio_6e38bbaec8.mp3?filename=happy-birthday-120-bpm-111151.mp3" type="audio/mpeg" />
+  Your browser does not support the audio element.
+</audio>
+
+<script>
+[9/6, 10:13 AM] My Friend: // ----------- Candles Lighting Up One by One -----------
+const candles = document.querySelectorAll('.candle .flame');
+let candleIndex = 0;
+function lightCandles() {
+  if (candleIndex < candles.length) {
+    candles[candleIndex].style.opacity = '1';
+    candleIndex++;
+    setTimeout(lightCandles, 1000);
+  }
+}
+setTimeout(lightCandles, 1000);
+
+// ----------- Fireworks Animation -----------
+const canvas = document.getElementById('fireworksCanvas');
+const ctx = canvas.getContext('2d');
+let cw, ch;
+function resize() {
+  cw = canvas.width = window.innerWidth;
+  ch = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+function random(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+class Firework {
+  constructor() {
+    this.x = random(0, cw);
+    this.y = ch;
+    this.targetY = random(ch/4, ch/2);
+    this.particles = [];
+    this.exploded = false;
+  }
+  update() {
+    if (!this.exploded) {
+      this.y -= 8;
+      if (this.y <= this.targetY) {
+        this.exploded = true;
+        this.createParticles();
+      }
+    }
+    else {
+      this.particles.forEach(p => p.update());
+      this.particles = this.particles.filter(p => !p.dead);
+    }
+  }
+  draw() {
+    if (!this.exploded) {
+      ctx.beginPath();
+[9/6, 10:13 AM] My Friend: ctx.arc(this.x, this.y, 3, 0, Math.PI*2);
+      ctx.fillStyle = 'white';
+      ctx.fill();
+    }
+    else {
+      this.particles.forEach(p => p.draw());
+    }
+  }
+  createParticles() {
+    const colors = ['#ff3c78', '#ffdc6f', '#ffffff', '#ff6f91', '#ffb347'];
+    for(let i = 0; i < 30; i++) {
+      this.particles.push(new Particle(this.x, this.y, colors[Math.floor(random(0, colors.length))]));
+    }
+  }
+}
+
+class Particle {
+  constructor(x, y, color) {
+    this.x = x;
+    this.y = y;
+    this.color = color;
+    this.radius = 2;
+    this.speedX = random(-5, 5);
+    this.speedY = random(-5, 5);
+    this.alpha = 1;
+    this.dead = false;
+  }
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    this.alpha -= 0.03;
+    if (this.alpha <= 0) this.dead = true;
+  }
+  draw() {
+    ctx.save();
+    ctx.globalAlpha = this.alpha;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    ctx.fillStyle = this.color;
+    ctx.shadowColor = this.color;
+    ctx.shadowBlur = 10;
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+const fireworks = [];
+function animate() {
+  ctx.clearRect(0, 0, cw, ch);
+  if (fireworks.length < 5) {
+    fireworks.push(new Firework());
+  }
+  fireworks.forEach((f, i) => {
+    f.update();
+    f.draw();
+[9/6, 10:13 AM] My Friend: if (f.exploded && f.particles.length === 0) fireworks.splice(i, 1);
+  });
+  requestAnimationFrame(animate);
+}
+animate();
+
+// ----------- Music Control -----------
+const music = document.getElementById('bgMusic');
+const btn = document.getElementById('musicControl');
+btn.addEventListener('click', ()
